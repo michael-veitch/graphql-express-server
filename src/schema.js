@@ -1,5 +1,7 @@
 //Axios is a client for making Http 
 const axios = require('axios');
+
+//GraphQL DataType Imports
 const {
     GraphQLObjectType,
     GraphQLString,
@@ -9,35 +11,7 @@ const {
     GraphQLNonNull
 } = require('graphql');
 
-//TODO: Move to MongoDB
-// const customers = [
-//     {
-//         id: 1,
-//         name: "Leanne Graham",
-//         username: "Bret",
-//         email: "Sincere@april.biz",
-//         address: {
-//           street: "Kulas Light",
-//           suite: "Apt. 556",
-//           city: "Gwenborough",
-//           zipcode: "92998-3874",
-//           geo: {
-//             lat: "-37.3159",
-//             lng: "81.1496"
-//           }
-//         },
-//         phone: "1-770-736-8031 x56442",
-//         website: "hildegard.org",
-//         company: {
-//           name: "Romaguera-Crona",
-//           catchPhrase: "Multi-layered client-server neural-net",
-//           bs: "harness real-time e-markets"
-//         }
-//       }
-// ]
-
-
-
+//Custom Data Types
 const CustomerType = new GraphQLObjectType({
     name: 'Customer',
     fields: () => ({
@@ -81,28 +55,24 @@ const CompanyType = new GraphQLObjectType({
 // Root Query
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
-    fields: {
-        //Single Customer by ID
-        customer: {
-            type: CustomerType,
-            args: {
-                id: { type: GraphQLString }
-            },
-            resolve(parentValue, args){
-                // for(let i = 0; i < customers.length; customers++){
-                //     if(customers[i].id == args.id){
-                //         return customers[i]
-                //     }
-                // }
-                return axios.get('http://localhost:3000/customers/' + args.id)
-                    .then(res => res.data)
-            }
-        },
+    fields: {        
         //All Customers
         customers: {
             type: new GraphQLList(CustomerType),
             resolve(parentValue, args) {
-                return customers;
+                return axios.get('http://localhost:3000/customers')
+                    .then(res => res.data)
+            }
+        },
+        //Single Customer by ID
+        customer: {
+            type: CustomerType,
+            args: {
+                id: { type: GraphQLString } //Input Param and Type
+            },
+            resolve(parentValue, args){
+                return axios.get('http://localhost:3000/customers/' + args.id)
+                    .then(res => res.data)
             }
         }
     }

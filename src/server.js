@@ -5,8 +5,8 @@ const schema = require('./schema.js');
 const app = express();
 
 app.use('/graphql', expressGraphQL({
-    schema: schema,
-    graphiql: true
+    schema: schema,     //Indicates which schema to use for this route
+    graphiql: true      //Lets you use browser debugger
 }))
 
 
