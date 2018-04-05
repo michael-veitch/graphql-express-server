@@ -1,3 +1,5 @@
+//Run 'npm run dev:server for local GraphQL server'
+//Run 'npm run json:server for JSON server'
 const express = require('express');
 const expressGraphQL = require('express-graphql');
 const schema = require('./schema.js');

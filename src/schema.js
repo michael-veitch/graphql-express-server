@@ -66,9 +66,9 @@ const RootQuery = new GraphQLObjectType({
         },
         //Single Customer by ID
         customer: {
-            type: CustomerType,
-            args: {
-                id: { type: GraphQLString } //Input Param and Type
+            type: CustomerType,                 //Response Type
+            args: { 
+                id: { type: GraphQLString }     //Input Param and Type
             },
             resolve(parentValue, args){
                 return axios.get('http://localhost:3000/customers/' + args.id)
