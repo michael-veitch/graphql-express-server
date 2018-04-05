@@ -12,36 +12,36 @@ const {
 } = require('graphql');
 
 //Custom Data Types
-const CustomerType = new GraphQLObjectType({
+const GraphQLCustomerType = new GraphQLObjectType({
     name: 'Customer',
     fields: () => ({
         id: { type: GraphQLString },
         name: { type: GraphQLString },
         email: { type: GraphQLString },
-        address: { type: AddressType },
+        address: { type: GraphQLAddressType },
          phone: { type: GraphQLString},
          website: { type: GraphQLString},
-         company: { type: CompanyType }
+         company: { type: GraphQLCompanyType }
     })
 })
-const AddressType = new GraphQLObjectType({
+const GraphQLAddressType = new GraphQLObjectType({
     name: 'Address',
     fields: () => ({
         street: { type: GraphQLString},
         suite: { type: GraphQLString},
         city: { type: GraphQLString},
         zipcode: { type: GraphQLString},
-        geo: { type : GeoType }
+        geo: { type : GraphQLGeoType }
     })
 })
-const GeoType = new GraphQLObjectType({
+const GraphQLGeoType = new GraphQLObjectType({
     name: 'Geo',
     fields: () => ({
         lat: { type: GraphQLString},
         long: { type: GraphQLString}
     })
 })
-const CompanyType = new GraphQLObjectType({
+const GraphQLCompanyType = new GraphQLObjectType({
     name: 'Company',
     fields: () => ({
         name: { type: GraphQLString},
@@ -58,7 +58,7 @@ const RootQuery = new GraphQLObjectType({
     fields: {        
         //All Customers
         customers: {
-            type: new GraphQLList(CustomerType),
+            type: new GraphQLList(GraphQLCustomerType),
             resolve(parentValue, args) {
                 return axios.get('http://localhost:3000/customers')
                     .then(res => res.data)
@@ -66,7 +66,7 @@ const RootQuery = new GraphQLObjectType({
         },
         //Single Customer by ID
         customer: {
-            type: CustomerType,                 //Response Type
+            type: GraphQLCustomerType,                 //Response Type
             args: { 
                 id: { type: GraphQLString }     //Input Param and Type
             },
